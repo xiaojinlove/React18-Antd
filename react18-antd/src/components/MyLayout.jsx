@@ -26,9 +26,12 @@ const MyLayout = ({ children }) => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={['1']}
+          onClick={({key}) => {
+            console.log(key);
+          }}
           items={[
             {
-              key: '1',
+              key: '/admin/student_menu',
               icon: <UserOutlined />,
               label: '学生列表',
               children: [{
@@ -40,7 +43,7 @@ const MyLayout = ({ children }) => {
               },]
             },
             {
-              key: '2',
+              key: '/admin/class_menu',
               icon: <ReadOutlined />,
               label: '班级管理',
               children: [{
@@ -52,7 +55,7 @@ const MyLayout = ({ children }) => {
               },]
             },
             {
-              key: '3',
+              key: '/admin/course_menu',
               icon: <UploadOutlined />,
               label: '课程管理',
             },
