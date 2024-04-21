@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
 import logo from '../assets/logo.jpeg'
+import { useNavigate } from 'react-router-dom';
 
 const { Header, Sider, Content } = Layout;
 
@@ -16,6 +17,7 @@ const MyLayout = ({ children }) => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const navigate = useNavigate()
   return (
     <Layout style={{width: '100vw', height: '100vh'}}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -26,8 +28,9 @@ const MyLayout = ({ children }) => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={['1']}
-          onClick={({key}) => {
-            console.log(key);
+          onClick={(e) => {
+            console.log(e.key);
+            navigate(e.key)
           }}
           items={[
             {
