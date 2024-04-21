@@ -1,9 +1,9 @@
+import MyLayout from "./components/MyLayout"
+
 function App() {
   return (
     <>
-      <div>
-        jam
-      </div>
+      <MyLayout>我是 jam, 今年23</MyLayout>
     </>
   )
 }
