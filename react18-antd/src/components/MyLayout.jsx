@@ -7,7 +7,7 @@ import {
   ReadOutlined,
 
 } from '@ant-design/icons';
-import { Button, Layout, Menu, theme, Dropdown } from 'antd';
+import { Button, Layout, Menu, theme, Dropdown, message } from 'antd';
 import logo from '../assets/logo.jpeg'
 import { useNavigate } from 'react-router-dom';
 
@@ -30,6 +30,14 @@ const MyLayout = ({ children }) => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   const navigate = useNavigate()
+  const onClick = ({key}) => {
+    console.log(key);
+    if(key === 'logOut'){
+      navigate('/')
+    } else {
+      message.info('还没开通呢')
+    }
+  }
   return (
     <Layout style={{width: '100vw', height: '100vh'}}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -97,15 +105,16 @@ const MyLayout = ({ children }) => {
           <span className='titleDiv'>jam的学生管理系统-React</span>
           <Dropdown
             menu={{
-              items,
+              items, onClick
             }}
           >
-            <a onClick={(e) => e.preventDefault()} style={{float: 'right', marginRight: '30px'}}>
-              <img src={logo} style={{
-                width: '30px',
-                borderRadius: '15px'
-              }} />
-            </a>
+            <img src={logo} style={{
+              width: '30px',
+              borderRadius: '15px',
+              float: 'right', 
+              marginTop: '20px',
+              marginRight: '30px'
+            }} />
           </Dropdown>
         </Header>
         <Content
