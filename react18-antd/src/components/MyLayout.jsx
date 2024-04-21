@@ -4,13 +4,25 @@ import {
   MenuUnfoldOutlined,
   UploadOutlined,
   UserOutlined,
-  ReadOutlined
+  ReadOutlined,
+
 } from '@ant-design/icons';
-import { Button, Layout, Menu, theme } from 'antd';
+import { Button, Layout, Menu, theme, Dropdown } from 'antd';
 import logo from '../assets/logo.jpeg'
 import { useNavigate } from 'react-router-dom';
 
 const { Header, Sider, Content } = Layout;
+//下拉菜单的menu数据
+const items = [
+  {
+    key: 'userCenter',
+    label: (<a>个人中心</a>),
+  },
+  {
+    key: 'logOut',
+    label: (<a>退出</a>),
+  }
+];
 
 const MyLayout = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
@@ -82,6 +94,19 @@ const MyLayout = ({ children }) => {
               height: 64,
             }}
           />
+          <span className='titleDiv'>jam的学生管理系统-React</span>
+          <Dropdown
+            menu={{
+              items,
+            }}
+          >
+            <a onClick={(e) => e.preventDefault()} style={{float: 'right', marginRight: '30px'}}>
+              <img src={logo} style={{
+                width: '30px',
+                borderRadius: '15px'
+              }} />
+            </a>
+          </Dropdown>
         </Header>
         <Content
           style={{
