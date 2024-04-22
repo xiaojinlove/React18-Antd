@@ -1,6 +1,7 @@
 import { Card, Button, Form, Input, Table, Modal, message } from 'antd';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons'
 import { useState } from 'react'
+import MyUpload from '../components/MyUpload';
 
 function SdudentType() {
   const [isShow, setIsShow] = useState(false)
@@ -66,7 +67,7 @@ function SdudentType() {
             <Input placeholder='请编辑姓名'/>
           </Form.Item>
           <Form.Item label='照片'>
-            
+            <MyUpload />
           </Form.Item>
           <Form.Item label='简介' name='desc'>
             <Input placeholder='请编辑简介'/>
