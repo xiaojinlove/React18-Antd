@@ -9,7 +9,7 @@ import {
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme, Dropdown, message } from 'antd';
 import logo from '../assets/logo.jpeg'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const { Header, Sider, Content } = Layout;
 //下拉菜单的menu数据
@@ -23,13 +23,64 @@ const items = [
     label: (<a>退出</a>),
   }
 ];
-
+//side的数据
+const itemsMenuData = [
+  {
+    key: '/admin/student_menu',
+    icon: <UserOutlined />,
+    label: '学生列表',
+    children: [{
+      label: '学生分类',
+      key: '/admin/student_menu/student_type'
+    },{
+      label: '学生列表',
+      key: '/admin/student_menu/student_list'
+    },]
+  },
+  {
+    key: '/admin/class_menu',
+    icon: <ReadOutlined />,
+    label: '班级管理',
+    children: [{
+      label: '班级分类',
+      key: '/admin/class_menu/class_type'
+    },{
+      label: '班级列表',
+      key: '/admin/class_menu/class_list'
+    },]
+  },
+  {
+    key: '/admin/course_menu',
+    icon: <UploadOutlined />,
+    label: '课程管理',
+  },
+]
+//查找对应的地址
+const searchUrlKey = (path) => {
+  let arrObj = []
+  const demoFn = (_arr) => {
+    _arr.forEach( item => {
+      //console.log(item);
+      if(path.includes(item.key)) {
+        arrObj.push(item.key)
+        if(item.children) {
+          demoFn(item.children)
+        }
+      }
+      
+    })
+  }
+  demoFn(itemsMenuData)
+  return arrObj
+}
 const MyLayout = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  //路由跳转
   const navigate = useNavigate()
+  //下拉菜单的点击事件
   const onClick = ({key}) => {
     console.log(key);
     if(key === 'logOut'){
@@ -38,6 +89,11 @@ const MyLayout = ({ children }) => {
       message.info('还没开通呢')
     }
   }
+
+  let { pathname } = useLocation()
+  //console.log(pathname);
+  let demoItemsArr = searchUrlKey(pathname)
+
   return (
     <Layout style={{width: '100vw', height: '100vh'}}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -47,42 +103,13 @@ const MyLayout = ({ children }) => {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={['1']}
+          defaultOpenKeys={demoItemsArr}
+          defaultSelectedKeys={demoItemsArr}
           onClick={(e) => {
             console.log(e.key);
             navigate(e.key)
           }}
-          items={[
-            {
-              key: '/admin/student_menu',
-              icon: <UserOutlined />,
-              label: '学生列表',
-              children: [{
-                label: '学生分类',
-                key: '/admin/student_type'
-              },{
-                label: '学生列表',
-                key: '/admin/student_list'
-              },]
-            },
-            {
-              key: '/admin/class_menu',
-              icon: <ReadOutlined />,
-              label: '班级管理',
-              children: [{
-                label: '班级分类',
-                key: '/admin/class_type'
-              },{
-                label: '班级列表',
-                key: '/admin/class_list'
-              },]
-            },
-            {
-              key: '/admin/course_menu',
-              icon: <UploadOutlined />,
-              label: '课程管理',
-            },
-          ]}
+          items={itemsMenuData}
         />
       </Sider>
       <Layout>

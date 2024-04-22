@@ -23,7 +23,14 @@ function LogOut() {
           margin: '40px auto' 
         }} />
 
-        <Card title="jam 的学生管理系统React18 + antd">
+        <Card 
+          title="jam 的学生管理系统React18 + antd"
+          styles={{
+            header: {
+              textAlign: 'center',  
+            }
+          }}
+        >
           <Form 
             labelCol={{
               md: {
