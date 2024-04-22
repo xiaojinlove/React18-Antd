@@ -11,10 +11,10 @@ function App() {
     <>
       <MyLayout>
         <Routes>
-          <Route path="student_type" element={<StudentType />} />
-          <Route path="student_list" element={<StudentList />} />
-          <Route path="class_type" element={<ClassType />} />
-          <Route path="class_list" element={<ClassList />} />
+          <Route path="student_menu/student_type" element={<StudentType />} />
+          <Route path="student_menu/student_list" element={<StudentList />} />
+          <Route path="class_menu/class_type" element={<ClassType />} />
+          <Route path="class_menu/class_list" element={<ClassList />} />
           <Route path="course_menu" element={<CourseMenu />} />
         </Routes>
       </MyLayout>

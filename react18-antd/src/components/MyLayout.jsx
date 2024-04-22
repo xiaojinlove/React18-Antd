@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -7,7 +7,7 @@ import {
   ReadOutlined,
 
 } from '@ant-design/icons';
-import { Button, Layout, Menu, theme, Dropdown, message } from 'antd';
+import { Button, Layout, Menu, theme, Dropdown, message, Breadcrumb } from 'antd';
 import logo from '../assets/logo.jpeg'
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -55,6 +55,32 @@ const itemsMenuData = [
     label: '课程管理',
   },
 ]
+//生成面包屑导航
+const createNavFn = (path) => {
+  console.log(path);
+  let arrObj = []
+
+  const demoFn = (_arr) => {
+    _arr.forEach(item => {
+      const { children, ...info } = item
+      //console.log(info);
+      arrObj.push(info)
+      if(children) {
+        demoFn(children)
+      }
+    })
+  }
+  demoFn(itemsMenuData)
+  //过滤数据
+  const temp = arrObj.filter(item => path.includes(item.key))
+  //console.log(temp);
+  if(temp.length > 0) {
+    return [{label: '首页', key: '/admin/student_menu/student_type'},...temp]
+  }else {
+    return []
+  }
+}
+
 //查找对应的地址
 const searchUrlKey = (path) => {
   let arrObj = []
@@ -73,6 +99,7 @@ const searchUrlKey = (path) => {
   demoFn(itemsMenuData)
   return arrObj
 }
+
 const MyLayout = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -94,6 +121,12 @@ const MyLayout = ({ children }) => {
   //console.log(pathname);
   let demoItemsArr = searchUrlKey(pathname)
 
+  const [navurl, setNavurl] = useState([])
+  //面包屑导航监听
+  useEffect(() => {
+    setNavurl(createNavFn(pathname))
+  }, [pathname])
+
   return (
     <Layout style={{width: '100vw', height: '100vh'}}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -106,7 +139,7 @@ const MyLayout = ({ children }) => {
           defaultOpenKeys={demoItemsArr}
           defaultSelectedKeys={demoItemsArr}
           onClick={(e) => {
-            console.log(e.key);
+            //console.log(e.key);
             navigate(e.key)
           }}
           items={itemsMenuData}
@@ -153,6 +186,13 @@ const MyLayout = ({ children }) => {
             borderRadius: borderRadiusLG,
           }}
         >
+          <Breadcrumb>
+            {
+              navurl.map( item => {
+                return <Breadcrumb.Item key={item.key}>{item.label}</Breadcrumb.Item>
+              })
+            }
+          </Breadcrumb>
           {children}
         </Content>
       </Layout>
