@@ -188,6 +188,7 @@ const MyLayout = ({ children }) => {
           }}
         >
           <Breadcrumb 
+            style={{margin: '0 0 20px 0'}}
             items={navurl.map(item => ({
               title: item.label,
             }))}
