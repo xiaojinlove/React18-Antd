@@ -57,13 +57,13 @@ const itemsMenuData = [
 ]
 //生成面包屑导航
 const createNavFn = (path) => {
-  console.log(path);
+  //console.log(path);
   let arrObj = []
 
   const demoFn = (_arr) => {
     _arr.forEach(item => {
       const { children, ...info } = item
-      //console.log(info);
+      console.log('处理中', info);
       arrObj.push(info)
       if(children) {
         demoFn(children)
@@ -71,9 +71,10 @@ const createNavFn = (path) => {
     })
   }
   demoFn(itemsMenuData)
+  console.log('扁平化数组', arrObj);
   //过滤数据
   const temp = arrObj.filter(item => path.includes(item.key))
-  //console.log(temp);
+  console.log('过滤后的数组', temp);
   if(temp.length > 0) {
     return [{label: '首页', key: '/admin/student_menu/student_type'},...temp]
   }else {
@@ -126,7 +127,7 @@ const MyLayout = ({ children }) => {
   useEffect(() => {
     setNavurl(createNavFn(pathname))
   }, [pathname])
-
+  //console.log(navurl);
   return (
     <Layout style={{width: '100vw', height: '100vh'}}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -186,13 +187,11 @@ const MyLayout = ({ children }) => {
             borderRadius: borderRadiusLG,
           }}
         >
-          <Breadcrumb>
-            {
-              navurl.map( item => {
-                return <Breadcrumb.Item key={item.key}>{item.label}</Breadcrumb.Item>
-              })
-            }
-          </Breadcrumb>
+          <Breadcrumb 
+            items={navurl.map(item => ({
+              title: item.label,
+            }))}
+          />
           {children}
         </Content>
       </Layout>
