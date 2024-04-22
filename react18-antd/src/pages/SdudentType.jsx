@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 function SdudentType() {
   const [isShow, setIsShow] = useState(false)
+  const [myForm] = Form.useForm()
   return (
     <div>
       <Card
@@ -43,10 +44,34 @@ function SdudentType() {
         maskClosable={false}
         onCancel={()=>setIsShow(false)}
         onOk={()=>{
-          message.success('添加成功！')
+          myForm.submit()
         }}
       >
-
+        <Form
+          form={myForm}
+          labelCol={{span: 3}}
+          onFinish={(n)=>{
+            message.success('添加成功')
+            console.log(n);
+          }}
+        >
+          <Form.Item 
+            label='姓名'
+            name='name'
+            rules={[{
+              required: true,
+              message: '请输入姓名'
+            }]}
+          >
+            <Input placeholder='请编辑姓名'/>
+          </Form.Item>
+          <Form.Item label='照片'>
+            
+          </Form.Item>
+          <Form.Item label='简介' name='desc'>
+            <Input placeholder='请编辑简介'/>
+          </Form.Item>
+        </Form>
       </Modal>
     </div>
     
