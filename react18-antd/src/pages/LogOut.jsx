@@ -40,7 +40,7 @@ function LogOut() {
             onFinish = {(n) => {
               console.log(n);
               message.success('登录成功')
-              navigate('/admin/student_type')
+              navigate('/admin/student_menu/student_type')
             }}
           >
             <Form.Item label="用户名" name="username" rules={[

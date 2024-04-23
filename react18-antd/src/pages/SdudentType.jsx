@@ -2,10 +2,17 @@ import { Card, Button, Form, Input, Table, Modal, message } from 'antd';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons'
 import { useState } from 'react'
 import MyUpload from '../components/MyUpload';
+import { get } from '../utils/request';
 
 function SdudentType() {
   const [isShow, setIsShow] = useState(false)
   const [myForm] = Form.useForm()
+  const [tableData, setTableData] = useState([])
+  get('/getData')
+    .then(_d => {
+      //console.log(_d.data)
+      setTableData(_d.data)
+    })
   return (
     <div>
       <Card
@@ -29,11 +36,18 @@ function SdudentType() {
           </Form.Item>
         </Form>
         <Table
+          dataSource={tableData}
           columns={[
-            {title: '序号', width: 80},
-            {title: '姓名'},
-            {title: '照片', width: 120},
-            {title: '成绩'},
+            {title: '序号', width: 80, dataIndex: 'ids'},
+            {title: '姓名', dataIndex: 'name'},
+            {
+              title: '照片', 
+              width: 120,
+              render(n, m, k){
+                return <img src={n.img} />
+              }
+            },
+            {title: '成绩', dataIndex: 'desc'},
             {title: '操作', width: 80}
           ]}
         >
